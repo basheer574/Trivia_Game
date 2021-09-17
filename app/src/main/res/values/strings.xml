@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Trivia Game</string>
+    <string-array name="category_spinner">
+        <item>General Knowledge</item>
+        <item>Entertainment: Books</item>
+        <item>Entertainment: Films</item>
+        <item>Entertainment: Music</item>
+        <item>Entertainment: Musicals and Theatres</item>
+        <item>Entertainment: Television</item>
+        <item>Entertainment: Video Games</item>
+        <item>Entertainment: Japanese Anime and Manga</item>
+        <item>Entertainment: Cartoon and Animation</item>
+        <item>Entertainment: Comics</item>
+        <item>Entertainment: Board Games</item>
+        <item>Science and Nature</item>
+        <item>Science: Computers</item>
+        <item>Science: Mathematics</item>
+        <item>Science: Gadgets</item>
+        <item>Mythology</item>
+        <item>Sports</item>
+        <item>Geography</item>
+        <item>History</item>
+        <item>Politics</item>
+        <item>Art</item>
+        <item>Celebrities</item>
+        <item>Animals</item>
+        <item>Vehicles</item>
+    </string-array>
+
+    <string-array name="difficulty_spinner">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
+
+    <string-array name="type_spinner">
+        <item>Multiple</item>
+    </string-array>
+
+</resources>
