@@ -117,54 +117,33 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
         return "https://opentdb.com/api.php?amount=${qNumber}&category=${category}&difficulty=${difficulty}&type=${type}"
     }
     private fun addConditions(){
-        if(category=="General Knowledge")
-            category = category.replace(category,"9")
-        else if(category=="Entertainment: Books")
-            category = category.replace(category,"10")
-        else if(category=="Entertainment: Films")
-            category = category.replace(category,"11")
-        else if(category=="Entertainment: Music")
-            category = category.replace(category,"12")
-        else if(category=="Entertainment: Musicals and Theatres")
-            category = category.replace(category,"13")
-        else if(category=="Entertainment: Television")
-            category = category.replace(category,"14")
-        else if(category=="Entertainment: Video Games")
-            category = category.replace(category,"15")
-        else if(category=="Entertainment: Board Games")
-            category = category.replace(category,"16")
-        else if(category=="Science and Nature")
-            category = category.replace(category,"17")
-        else if(category=="Science: Computers")
-            category = category.replace(category,"18")
-        else if(category=="Science: Mathematics")
-            category = category.replace(category,"19")
-        else if(category=="Mythology")
-            category = category.replace(category,"20")
-        else if(category=="Sports")
-            category = category.replace(category,"21")
-        else if(category=="Geography")
-            category = category.replace(category,"22")
-        else if(category=="History")
-            category = category.replace(category,"23")
-        else if(category=="Politics")
-            category = category.replace(category,"24")
-        else if(category=="Art")
-            category = category.replace(category,"25")
-        else if(category=="Celebrities")
-            category = category.replace(category,"26")
-        else if(category=="Animals")
-            category = category.replace(category,"27")
-        else if(category=="Vehicles")
-            category = category.replace(category,"28")
-        else if(category=="Entertainment: Comics")
-            category = category.replace(category,"29")
-        else if(category=="Science: Gadgets")
-            category = category.replace(category,"30")
-        else if(category=="Entertainment: Japanese Anime and Manga")
-            category = category.replace(category,"31")
-        else if(category=="Entertainment: Cartoon and Animation")
-            category = category.replace(category,"32")
+        val categoryMap = mapOf(
+            "General Knowledge" to "9",
+            "Entertainment: Books" to "10",
+            "Entertainment: Music" to "11",
+            "Entertainment: Films" to "12",
+            "Entertainment: Musicals and Theatres" to "13",
+            "Entertainment: Television" to "14",
+            "Entertainment: Video Games" to "15",
+            "Entertainment: Board Games" to "16",
+            "Science and Nature" to "17",
+            "Science: Computers" to "18",
+            "Science: Mathematics" to "19",
+            "Mythology" to "20",
+            "Sports" to "21",
+            "Geography" to "22",
+            "History" to "23",
+            "Politics" to "24",
+            "Art" to "25",
+            "Celebrities" to "26",
+            "Animals" to "27",
+            "Vehicles" to "28",
+            "Entertainment: Comics" to "29",
+            "Science: Gadgets" to "30",
+            "Entertainment: Japanese Anime and Manga" to "31",
+            "Entertainment: Cartoon and Animation" to "32",
+            )
+        category = categoryMap[category].toString()
     }
     private fun count(answerOption: RadioButton){
         if(answerOption.text==correctAnswer)
