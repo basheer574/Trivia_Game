@@ -145,6 +145,8 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
             )
         category = categoryMap[category].toString()
     }
+
+
     private fun count(answerOption: RadioButton){
         if(answerOption.text==correctAnswer)
             points++
