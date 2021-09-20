@@ -9,7 +9,7 @@ import android.widget.RadioButton
 import com.example.triviagame.R
 import com.example.triviagame.data.domain.Results
 import com.example.triviagame.data.domain.ResultsResponse
-import com.example.triviagame.data.utils.Constants
+import com.example.triviagame.data.utils.*
 import com.example.triviagame.databinding.QuestionFragmentBinding
 import com.google.gson.Gson
 import okhttp3.*
@@ -176,5 +176,15 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
             binding?.answerThree?.isChecked = false
             binding?.answerOne?.isChecked = false
         })
+    }
+
+    private fun getState(state : State)
+    {
+        when (state)
+        {
+            is Fail -> state.requestState()
+            is Loading -> state.requestState()
+            is Success -> state.requestState()
+        }
     }
 }
