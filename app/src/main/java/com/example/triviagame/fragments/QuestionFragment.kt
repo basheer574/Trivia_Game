@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import com.example.triviagame.R
 import com.example.triviagame.data.domain.Results
-import com.example.triviagame.data.domain.ResultsResponse
-import com.example.triviagame.data.utils.*
+import com.example.triviagame.data.domain.TriviaResponse
+import com.example.triviagame.utils.*
 import com.example.triviagame.databinding.QuestionFragmentBinding
 import com.google.gson.Gson
 import okhttp3.*
@@ -64,7 +64,7 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
                 }
                 override fun onResponse(call: Call, response: Response) {
                     response.body?.string()?.let { jsonString ->
-                        val response = Gson().fromJson(jsonString, ResultsResponse::class.java)
+                        val response = Gson().fromJson(jsonString, TriviaResponse::class.java)
                         response.results.forEach { addResults(it) }
 
                         val answers = response?.results?.toMutableList()?.get(index)
@@ -77,12 +77,12 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
                         ).shuffled().toMutableList()
 
                         activity?.runOnUiThread {
-                            binding?.questionText?.setText(answers?.question)
-                            binding?.answerOne?.setText(answerQuestions[0])
-                            binding?.answerTwo?.setText(answerQuestions[1])
-                            binding?.answerThree?.setText(answerQuestions[2])
-                            binding?.answerFour?.setText(answerQuestions[3])
-                            binding?.currentQuestionText?.setText(index.toString())
+                            binding?.questionText?.text = answers?.question
+                            binding?.answerOne?.text = answerQuestions[0]
+                            binding?.answerTwo?.text = answerQuestions[1]
+                            binding?.answerThree?.text = answerQuestions[2]
+                            binding?.answerFour?.text = answerQuestions[3]
+                            binding?.currentQuestionText?.text = index.toString()
                         }
                         index++
                         Log.i("test", results.toString())
@@ -176,15 +176,5 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
             binding?.answerThree?.isChecked = false
             binding?.answerOne?.isChecked = false
         })
-    }
-
-    private fun getState(state : State)
-    {
-        when (state)
-        {
-            is Fail -> state.requestState()
-            is Loading -> state.requestState()
-            is Success -> state.requestState()
-        }
     }
 }
