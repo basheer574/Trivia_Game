@@ -12,7 +12,7 @@ object Client {
     private val baseUrl = "https://opentdb.com/api.php?"
     private val gson = Gson()
 
-    fun getTrivia(qNumber: String, category: String, difficulty: String,type: String): Status<TriviaResponseMain> {
+    fun getTriviaResponse(qNumber: String, category: String, difficulty: String,type: String): Status<TriviaResponseMain> {
         val request = Request.Builder().url("${baseUrl}amount=${qNumber}&category=${category}&difficulty=${difficulty}&type=${type}").build()
         val response = okHttpClient.newCall(request).execute()
         return if (response.isSuccessful){
