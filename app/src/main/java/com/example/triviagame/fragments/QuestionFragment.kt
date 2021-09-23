@@ -1,5 +1,6 @@
 package com.example.triviagame.fragments
 
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,8 @@ import com.example.triviagame.R
 import com.example.triviagame.data.domain.Results
 import com.example.triviagame.data.domain.Status
 import com.example.triviagame.data.domain.TriviaResponse
+import com.example.triviagame.data.domain.data.Questions
+import com.example.triviagame.data.domain.data.QuestionsAnswers
 import com.example.triviagame.data.domain.repository.TriviaRepository
 import com.example.triviagame.utils.*
 import com.example.triviagame.databinding.QuestionFragmentBinding
@@ -22,7 +25,7 @@ import okhttp3.*
 import java.io.IOException
 
 class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
-    lateinit var qNumber :String
+    lateinit var questionNumber :String
     lateinit var category: String
     lateinit var difficulty: String
     lateinit var type: String
@@ -47,14 +50,14 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
         initArgs()
         addConditions()
 
-        val url = urlBuild(qNumber,category,difficulty,type)
+        val url = urlBuild(questionNumber,category,difficulty,type)
         parser(url)
         nextQuestion()
         getAnswer()
     }
 
     private fun initArgs(){
-        qNumber = arguments?.getStringArray("message")?.get(0).toString()
+        questionNumber = arguments?.getStringArray("message")?.get(0).toString()
         category = arguments?.getStringArray("message")?.get(1).toString()
         difficulty = arguments?.getStringArray("message")?.get(2).toString()
         type = arguments?.getStringArray("message")?.get(3).toString()
@@ -102,9 +105,29 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
         }
     }
 
-    private fun parser(jsonUrl: String) {
+
+    fun bindData(data: QuestionsAnswers) {
+        answerQuestions.add(data.questions.get(index).incorrectAnswers.toString())
+        if(index >= questionNumber.toInt()) displayGameResult()
+        else {
+            binding?.apply {
+                questionNumber.run {
+                    answerOne.text = answerQuestions[0]
+                    answerTwo.text = answerQuestions[1]
+                    answerThree.text = answerQuestions[2]
+                    answerFour.text = answerQuestions[3]
+                    currentQuestionText.text = index.toString()
+                }
+        }
+    }
+
+
+
+
+
+        fun parser(jsonUrl: String) {
         cleanJsonString(jsonUrl)
-        if(index >= qNumber.toInt())
+        if(index >= questionNumber.toInt())
             displayGameResult()
         else{
 
@@ -144,12 +167,12 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
         }
     }
     private fun nextQuestion(){
-        val url = urlBuild(qNumber,category,difficulty,type)
+        val url = urlBuild(questionNumber,category,difficulty,type)
         binding?.nextBtn?.setOnClickListener(View.OnClickListener {
             parser(url)
         })
     }
-    private fun displayGameResult(){
+    fun displayGameResult(){
         val gameResult = GameResultFragment()
         val bundle= Bundle()
         bundle.putInt(Constants.POINTS,points)
