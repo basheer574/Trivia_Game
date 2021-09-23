@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.triviagame.R
-import com.example.triviagame.data.utils.Constants
+import com.example.triviagame.utils.Constants
 import com.example.triviagame.databinding.GameResultFragmentBinding
 
 class GameResultFragment : BaseFragment<GameResultFragmentBinding>() {

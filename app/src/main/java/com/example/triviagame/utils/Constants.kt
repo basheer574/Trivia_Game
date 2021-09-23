@@ -1,4 +1,4 @@
-package com.example.triviagame.data.utils
+package com.example.triviagame.utils
 
 object Constants {
     const val POINTS = "gamePoints"

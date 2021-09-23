@@ -6,12 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.Toast
 import com.example.triviagame.R
 import com.example.triviagame.data.domain.Results
-import com.example.triviagame.data.domain.ResultsResponse
-import com.example.triviagame.data.utils.Constants
+import com.example.triviagame.data.domain.Status
+import com.example.triviagame.data.domain.TriviaResponse
+import com.example.triviagame.data.domain.repository.TriviaRepository
+import com.example.triviagame.utils.*
 import com.example.triviagame.databinding.QuestionFragmentBinding
 import com.google.gson.Gson
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.*
 import java.io.IOException
 
@@ -33,6 +39,9 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> QuestionFragmentBinding
         get() = QuestionFragmentBinding::inflate
 
+    private val disposable: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
+
     override fun addCallbacks() {
 
         initArgs()
@@ -43,11 +52,54 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
         nextQuestion()
         getAnswer()
     }
+
     private fun initArgs(){
         qNumber = arguments?.getStringArray("message")?.get(0).toString()
         category = arguments?.getStringArray("message")?.get(1).toString()
         difficulty = arguments?.getStringArray("message")?.get(2).toString()
         type = arguments?.getStringArray("message")?.get(3).toString()
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.dispose()
+    }
+
+
+    fun getWeatherForCity(qNumber: String,
+                          category: String,
+                          difficulty: String,
+                          type: String){
+
+
+//        TriviaRepository.getTrivia(qNumber,category,difficulty,type).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(::onTriviaResult).addTo(compositeDisposable)
+
+//        disposable.add(
+            TriviaRepository.getTrivia(qNumber,category,difficulty,type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(::onTriviaResult)
+//        )
+    }
+
+
+    private fun onTriviaResult(response: Status<TriviaResponse>){
+//        hideAllViews()
+        when(response){
+            is Status.Error -> {
+                Toast.makeText(requireContext(),"Error",Toast.LENGTH_LONG).show()
+            }
+            is Status.Loading -> {
+                Toast.makeText(requireContext(),"is loading",Toast.LENGTH_LONG).show()
+
+//                binding.progressLoading.show()
+            }
+            is Status.Success -> {
+                log(response.data.toString())
+               // bindData(response.data)
+            }
+        }
     }
 
     private fun parser(jsonUrl: String) {
@@ -64,7 +116,7 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
                 }
                 override fun onResponse(call: Call, response: Response) {
                     response.body?.string()?.let { jsonString ->
-                        val response = Gson().fromJson(jsonString, ResultsResponse::class.java)
+                        val response = Gson().fromJson(jsonString, TriviaResponse::class.java)
                         response.results.forEach { addResults(it) }
 
                         val answers = response?.results?.toMutableList()?.get(index)
@@ -77,12 +129,12 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
                         ).shuffled().toMutableList()
 
                         activity?.runOnUiThread {
-                            binding?.questionText?.setText(answers?.question)
-                            binding?.answerOne?.setText(answerQuestions[0])
-                            binding?.answerTwo?.setText(answerQuestions[1])
-                            binding?.answerThree?.setText(answerQuestions[2])
-                            binding?.answerFour?.setText(answerQuestions[3])
-                            binding?.currentQuestionText?.setText(index.toString())
+                            binding?.questionText?.text = answers?.question
+                            binding?.answerOne?.text = answerQuestions[0]
+                            binding?.answerTwo?.text = answerQuestions[1]
+                            binding?.answerThree?.text = answerQuestions[2]
+                            binding?.answerFour?.text = answerQuestions[3]
+                            binding?.currentQuestionText?.text = index.toString()
                         }
                         index++
                         Log.i("test", results.toString())
@@ -145,6 +197,8 @@ class QuestionFragment : BaseFragment<QuestionFragmentBinding>(){
             )
         category = categoryMap[category].toString()
     }
+
+
     private fun count(answerOption: RadioButton){
         if(answerOption.text==correctAnswer)
             points++
