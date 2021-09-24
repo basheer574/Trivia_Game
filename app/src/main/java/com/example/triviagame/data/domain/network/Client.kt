@@ -1,8 +1,7 @@
 package com.example.triviagame.data.domain.network
 
 import com.example.triviagame.data.domain.Status
-import com.example.triviagame.data.domain.TriviaResponse
-import com.example.triviagame.data.domain.TriviaResponseMain
+import com.example.triviagame.data.domain.data.TriviaResponseMain
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request

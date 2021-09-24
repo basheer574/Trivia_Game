@@ -1,5 +1,7 @@
 package com.example.triviagame.interfaces
 
+import com.example.triviagame.data.domain.data.TriviaResponseMain
+
 interface FragmentCommunicator {
-    fun passData(qNumber: String,category: String,difficulty: String,type: String)
+    fun passData(mainResponse: TriviaResponseMain)
 }

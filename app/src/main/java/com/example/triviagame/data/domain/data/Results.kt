@@ -1,4 +1,4 @@
-package com.example.triviagame.data.domain
+package com.example.triviagame.data.domain.data
 
 import com.google.gson.annotations.SerializedName
 

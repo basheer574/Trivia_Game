@@ -8,7 +8,7 @@ import com.example.triviagame.fragments.QuestionFragment
 import com.example.triviagame.fragments.SetupFragment
 import com.example.triviagame.interfaces.FragmentCommunicator
 
-class MainActivity : AppCompatActivity() , FragmentCommunicator{
+class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,15 +25,15 @@ class MainActivity : AppCompatActivity() , FragmentCommunicator{
         const val LOG_TAG = "HOME_ACTIVITY_LOG"
     }
 
-    override fun passData(qNumber: String, category: String, difficulty: String,type: String) {
-        val bundle = Bundle()
-        bundle.putStringArray("message", arrayOf(qNumber,category,difficulty,type))
-        val transaction = this.supportFragmentManager.beginTransaction()
-
-        val questionFragment = QuestionFragment()
-        questionFragment.arguments = bundle
-
-        transaction.replace(R.id.fragment_container,questionFragment,"message")
-        transaction.commit()
-    }
+//     fun passData(qNumber: String, category: String, difficulty: String,type: String) {
+//        val bundle = Bundle()
+//        bundle.putStringArray("message", arrayOf(qNumber,category,difficulty,type))
+//        val transaction = this.supportFragmentManager.beginTransaction()
+//
+//        val questionFragment = QuestionFragment()
+//        questionFragment.arguments = bundle
+//
+//        transaction.replace(R.id.fragment_container,questionFragment,"message")
+//        transaction.commit()
+//    }
 }

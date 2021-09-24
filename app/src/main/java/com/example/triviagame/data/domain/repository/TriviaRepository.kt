@@ -1,7 +1,7 @@
 package com.example.triviagame.data.domain.repository
 
 import com.example.triviagame.data.domain.Status
-import com.example.triviagame.data.domain.TriviaResponseMain
+import com.example.triviagame.data.domain.data.TriviaResponseMain
 import com.example.triviagame.data.domain.network.Client
 import io.reactivex.rxjava3.core.Observable
 
