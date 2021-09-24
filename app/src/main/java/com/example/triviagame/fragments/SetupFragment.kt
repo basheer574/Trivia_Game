@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.example.triviagame.R
 import com.example.triviagame.databinding.SetupFragmentBinding
 import com.example.triviagame.interfaces.FragmentCommunicator
@@ -27,7 +28,14 @@ class SetupFragment: BaseFragment<SetupFragmentBinding>(){
         fragmentCommunicator = activity as FragmentCommunicator
 
         binding?.playBtn?.setOnClickListener(View.OnClickListener {
-            fragmentCommunicator.passData(binding?.numberOfQuestions?.text.toString(),selectedCategory,selectedDifficulty,type)
+            if(binding?.numberOfQuestions?.text.toString() == ""){
+                Toast.makeText(requireContext(),"Please Enter Question Number.",Toast.LENGTH_SHORT).show()
+            } else if (binding?.numberOfQuestions?.text.toString().toInt() > 15){
+                Toast.makeText(requireContext(),"Invalid Question Number.",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                fragmentCommunicator.passData(binding?.numberOfQuestions?.text.toString(),selectedCategory,selectedDifficulty,type)
+            }
         })
         init()
     }
